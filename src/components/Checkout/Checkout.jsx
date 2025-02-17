@@ -16,7 +16,7 @@ export default function Checkout() {
  let formik=useFormik({
     initialValues:{
       details:'',
-      city:'',
+      phone:'',
       city:''
     },
     
