@@ -19,6 +19,7 @@ export default function Brands() {
 
   return <>
     <div className="container">
+<h2>ALL Brands</h2>
       <div className="row">
         
         {brands.map((item)=>

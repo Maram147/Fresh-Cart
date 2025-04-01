@@ -78,7 +78,7 @@ export default function Navbar() {
                 <li >
                 <NavLink to={'/cart'} className="cursor-pointer  py-4 mx-2 text-white relative" aria-current="page">
                 <i className="fa-solid fa-cart-shopping text-green-600 fa-2xl"></i>
-                <span className='bg-green-600 text-white px-2 p-1 text-sm absolute top-0 right-[-5px] rounded-2xl'>{cart.numOfCartItems}</span>
+                <span className='bg-green-600 text-white px-2 p-1 text-sm absolute top-0 right-[-5px] rounded-2xl'>{cart?.numOfCartItems}</span>
 
                 </NavLink>
 

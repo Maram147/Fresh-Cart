@@ -10,7 +10,9 @@ export default function CartContaxtProvider(props)
 let [cart,setCart]=useState(0);
     function getCartItem(){
         return axios.get(`https://ecommerce.routemisr.com/api/v1/cart`,{
-            headers
+            headers:
+                {token:localStorage.getItem("userToken")}
+                
         })
          .then((response)=>response)
         .catch((err)=>err)
@@ -21,14 +23,18 @@ let [cart,setCart]=useState(0);
        return axios.post(`https://ecommerce.routemisr.com/api/v1/cart`,{
             productId
         },{
-            headers
+            headers:
+                {token:localStorage.getItem("userToken")}
+                
         })
         .then((response)=>response)
         .catch((err)=>err)
     }
     function removeCartItem(productId){
         return axios.delete(`https://ecommerce.routemisr.com/api/v1/cart/${productId}`,{
-            headers
+            headers:
+                {token:localStorage.getItem("userToken")}
+                
         })
          .then((response)=>response)
         .catch((err)=>err)
@@ -37,7 +43,9 @@ let [cart,setCart]=useState(0);
         return axios.put(`https://ecommerce.routemisr.com/api/v1/cart/${productId}`,{
             count
         },{
-            headers
+            headers:
+                {token:localStorage.getItem("userToken")}
+                
         })
          .then((response)=>response)
         .catch((err)=>err)
@@ -53,7 +61,9 @@ let [cart,setCart]=useState(0);
             shippingAddress:formValue
            
         },{
-            headers
+            headers:
+                {token:localStorage.getItem("userToken")}
+                
         })
          .then((response)=>response)
         .catch((err)=>err)
