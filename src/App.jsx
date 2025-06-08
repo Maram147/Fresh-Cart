@@ -14,7 +14,6 @@ import Register from './components/Register/Register'
 import Notfound from './components/Notfound/Notfound'
 import 'flowbite'
 import UserContextProvider, { UserContext } from './Context/UserContext'
-// import UserContextProvider from './Context/CounterContext'
 import CounterContextProvider from './Context/CounterContext'
 import Navbar from './components/Navbar/Navbar'
 import ProtectRoute from './components/ProtectRoute/ProtectRoute'
@@ -30,16 +29,16 @@ let query = new QueryClient();
 let router = createBrowserRouter([
   {
     path: '', element: <Layout />, children: [
-      { index: true, element: <ProtectRoute><Home /></ProtectRoute> },
+      { index: true, element: <Home />},
       { path: 'cart', element: <ProtectRoute><Cart /></ProtectRoute> },
-      { path: 'products', element: <ProtectRoute><Products /></ProtectRoute> },
-      { path: 'productdetails/:id/:category', element: <ProtectRoute><ProductDetails /></ProtectRoute> },
+      { path: 'products', element: <Products /> },
+      { path: 'productdetails/:id/:category', element: <ProductDetails /> },
       { path: 'checkout', element: <ProtectRoute><Checkout/></ProtectRoute> },
       { path: 'allorders', element: <ProtectRoute><Orders/></ProtectRoute> },
       { path: 'forgetpassword', element: <ProtectRoute><ForgetPassword/></ProtectRoute> },
 
-      { path: 'categories', element: <ProtectRoute><Categories /></ProtectRoute> },
-      { path: 'brands', element: <ProtectRoute><Brands /></ProtectRoute> },
+      { path: 'categories', element: <Categories /> },
+      { path: 'brands', element: <Brands />},
       { path: 'login', element: <Login /> },
       { path: 'register', element: <Register /> },
       { path: '*', element: <Notfound /> }
@@ -50,7 +49,6 @@ let router = createBrowserRouter([
   }
 ])
 function App() {
-  const [count, setCount] = useState(0)
 
 
   return (<> <CartContaxtProvider>

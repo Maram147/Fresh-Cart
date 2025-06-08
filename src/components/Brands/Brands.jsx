@@ -1,41 +1,40 @@
-import React from 'react'
-import Style from './Brands.module.css'
-import { useState } from 'react'
-import { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+import Style from './Brands.module.css';
 import axios from 'axios';
 
 export default function Brands() {
-  const [brands, setBrands] = useState([])
+  const [brands, setBrands] = useState([]);
+
   const getAllBrands = async () => {
-    let { data } = await axios.get(`https://ecommerce.routemisr.com/api/v1/brands`)
-    setBrands(data.data)
-  }
-  const [counter, setCounter] = useState(0);
+    try {
+      const { data } = await axios.get(`https://ecommerce.routemisr.com/api/v1/brands`);
+      setBrands(data.data);
+    } catch (error) {
+      console.error('Error fetching brands:', error);
+    }
+  };
+
   useEffect(() => {
     getAllBrands();
-
   }, []);
 
-
-  return <>
-    <div className="container">
-<h2>ALL Brands</h2>
-      <div className="row">
-        
-        {brands.map((item)=>
-          <div key={item._id} className="col-md-3 mt-3">
-            <div className='product brand mx-2 pb-5'>
-              <img src={item.image} className='w-full' alt="" />
-              <h6 className='text-main text-center fw-bolder'>{item.name}</h6>
-            </div>
-
-          </div>)}
-
+  return (
+    <div className="container mx-auto px-4 py-8">
+      <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-6">ALL Brands</h2>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        {brands.map((item) => (
+          <div key={item._id} className="product brand bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow">
+            <img
+              src={item.image}
+              className="w-full h-[100px] sm:h-[150px] md:h-[200px] object-contain rounded-t-lg"
+              alt={item.name}
+            />
+            <h6 className="text-main text-center my-4 fw-bolder text-sm md:text-base">
+              {item.name}
+            </h6>
           </div>
-        
+        ))}
+      </div>
     </div>
-
-  </>
-
-
+  );
 }

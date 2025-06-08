@@ -1,39 +1,39 @@
-import React from 'react'
-import Style from './Categories.module.css'
-import { useState } from 'react'
-import { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+import Style from './Categories.module.css';
 import axios from 'axios';
 
 export default function Categories() {
-  const [categories, setCategories] = useState([])
+  const [categories, setCategories] = useState([]);
+
   const getAllCategories = async () => {
-    let { data } = await axios.get(`https://ecommerce.routemisr.com/api/v1/categories`)
-    setCategories(data.data)
-  }
-  const [counter, setCounter] = useState(0);
+    try {
+      const { data } = await axios.get(`https://ecommerce.routemisr.com/api/v1/categories`);
+      setCategories(data.data);
+    } catch (error) {
+      console.error('Error fetching categories:', error);
+    }
+  };
+
   useEffect(() => {
     getAllCategories();
-
   }, []);
 
-
-  return <>
-    <div className="container">
-      <div className="row flex category">
-          {categories?.map((item)=>{
-    return <div className=' product brand col-md-4 mt-4' key={item._id}> 
-      <img src={item.image} className=' w-100 h-[300px]'   alt={item.name}  />
-      <h6 className=' text-main text-center my-4 fw-bolder'>{item.name}</h6>
-    
-    </div>
-
-  })}
-
+  return (
+    <div className="container mx-auto px-4 py-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        {categories.map((item) => (
+          <div key={item._id} className="product brand bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow">
+            <img
+              src={item.image}
+              className="w-full h-[200px] sm:h-[250px] md:h-[300px] object-cover rounded-t-lg"
+              alt={item.name}
+            />
+            <h6 className="text-main text-center my-4 fw-bolder text-sm md:text-base">
+              {item.name}
+            </h6>
           </div>
-        
+        ))}
+      </div>
     </div>
-
-  </>
-
-
+  );
 }
