@@ -8,7 +8,10 @@ import Cart from '../Cart/Cart';
 import { CounterContext } from '../../Context/CounterContext';
 import { UserContext } from '../../Context/UserContext'
 import { CartContext } from '../../Context/CartContext';
+import {
 
+  LogOut,
+} from "lucide-react";
 export default function Navbar() {
   let { userLogin, setUserLogin } = useContext(UserContext);
   let navigate = useNavigate()
@@ -16,18 +19,12 @@ export default function Navbar() {
 
   function logOut() {
     localStorage.removeItem('userToken')
-    setUserLogin = (null)
+    setUserLogin(null);
     navigate('/login')
   }
 
-
-  useEffect(() => {
-    <img src={logo} alt="logo" className='h-8' />
-
-
-  }, []);
   return <>
-    <nav className="bg-gray-100 w-full z-50 text-center lg:fixed top-0 left-0 right-0 border-gray-200 ">
+    <nav className="bg-gray-100 w-full z-50 text-center lg:fixed top-0 left-0  border-gray-200 ">
       <div className="max-w-screen-xl flex  flex-wrap items-center justify-between md:justify-start mx-auto p-4">
         <Link to="" className="flex items-center space-x-3 rtl:space-x-reverse  md:w-[20%]">
           <img src={logo} alt="logo" className='h-8' />
@@ -41,7 +38,7 @@ export default function Navbar() {
         </button>
         <div className="hidden w-full md:flex md:w-[80%] md:justify-between" id="navbar-default">
 
-          <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-100 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-gray">
+          <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-100 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-gray-100">
             {userLogin !== null ? <>
               <li>
                 <NavLink to='' className="block py-2 px-3 text-white  rounded-sm md:bg-transparent md:text-blue-700 md:p-0" aria-current="page">Home</NavLink>
@@ -75,18 +72,28 @@ export default function Navbar() {
 
               </> :
               <>
-                <li >
-                <NavLink to={'/cart'} className="cursor-pointer  py-4 mx-2 text-white relative" aria-current="page">
-                <i className="fa-solid fa-cart-shopping text-green-600 fa-2xl"></i>
-                <span className='bg-green-600 text-white px-2 p-1 text-sm absolute top-0 right-[-5px] rounded-2xl'>{cart?.numOfCartItems}</span>
+                <li>
+                  <NavLink to="/cart" className="cursor-pointer py-4 mx-2 text-white relative" aria-current="page">
+                    <i className="fa-solid fa-cart-shopping text-green-600 fa-xl"></i>
+                    {cart?.numOfCartItems > 0 && (
+                      <span className="bg-green-600 text-white px-1  text-sm absolute top-0 right-[-5px] rounded-2xl">
+                        {cart.numOfCartItems}
+                      </span>
+                    )}
+                  </NavLink>
+                </li>
 
-                </NavLink>
+
+                <li>
+                  <button
+                    onClick={logOut}
+                    className="text-black cursor-pointer py-2 px-3 rounded-sm md:bg-transparent md:text-black md:p-0 flex items-center justify-center gap-1 w-full"
+                  >
+                    Logout <LogOut size={16} />
+                  </button>
 
                 </li>
 
-                <li onClick={logOut}>
-                  <NavLink to="logout" className="cursor-pointer block py-2 px-3 text-white  rounded-sm md:bg-transparent md:text-blue-700 md:p-0" aria-current="page">Logout</NavLink>
-                </li>
               </>
 
             }

@@ -1,0 +1,23 @@
+@media(max-width: 767px) {
+    .w75 {
+        width: 50%;
+        margin-inline: auto;
+    }
+
+}
+@media (max-width: 500px) {
+    .fsbtn {
+        font-size: 12px;
+    }
+}
+
+.borderTop {
+    border-top: 1px solid #dfe2e1 !important;
+    border-bottom: 1px solid #dfe2e1 !important;
+}
+
+@media(max-width: 500px) {
+    .fs8 {
+        font-size: 0.7rem;
+    }
+}

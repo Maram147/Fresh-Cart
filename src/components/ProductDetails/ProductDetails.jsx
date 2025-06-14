@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Style from './ProductDetails.module.css';
 import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
 import Slider from 'react-slick';
+import { CartContext } from '../../Context/CartContext';
+import toast from 'react-hot-toast';
 
 export default function ProductDetails() {
   const settings = {
@@ -18,6 +20,18 @@ export default function ProductDetails() {
   const [relatedProducts, setRelatedProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+   const { addToCart, setCart } = useContext(CartContext);
+
+  async function addProduct(productId) {
+    const response = await addToCart(productId);
+    if (response.data.status === 'success') {
+      setCart(response.data);
+      toast.success('Product added successfully to your cart');
+    } else {
+      toast.error('Error adding product to your cart');
+    }
+  }
 
   function getProductDetails(id) {
     setLoading(true);
@@ -104,9 +118,12 @@ export default function ProductDetails() {
               {productDetails.ratingsAverage} <i className="fas fa-star text-yellow-500"></i>
             </span>
           </div>
-          <button className="w-full py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-center">
-            Add to cart
-          </button>
+          <button
+                onClick={() => addProduct(productDetails.id)}
+                className="w-full px-4 py-2 bg-green-600 text-white rounded-b-lg hover:bg-green-700 transition-colors text-center h-10 flex items-center justify-center"
+              >
+                Add to cart
+              </button>
         </div>
       </div>
 
@@ -120,7 +137,7 @@ export default function ProductDetails() {
               key={product.id}
               className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/6 px-2 mb-4"
             >
-              <div className="product py-2 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow">
+              <div className="product  bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow">
                 <Link to={`/productdetails/${product.id}/${product.category.name}`}>
                   <img
                     className="w-full h-[150px] md:h-[180px] object-cover rounded-t-lg"
@@ -142,9 +159,12 @@ export default function ProductDetails() {
                     </div>
                   </div>
                 </Link>
-                <button className="w-full py-1 md:py-2 bg-green-600 text-white rounded-b-lg hover:bg-green-700 transition-colors text-center text-sm md:text-base">
-                  Add to cart
-                </button>
+                <button
+                onClick={() => addProduct(product.id)}
+                className="w-full px-4 py-2 bg-green-600 text-white rounded-b-lg hover:bg-green-700 transition-colors text-center h-10 flex items-center justify-center"
+              >
+                Add to cart
+              </button>
               </div>
             </div>
           ))}

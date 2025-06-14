@@ -38,6 +38,10 @@ getCart();
   
 
 <div className="relative  overflow-x-auto shadow-md sm:rounded-lg">
+  <h1 className='text-2xl md:text-3xl font-bold text-gray-800 mb-8'>Shopping Cart</h1>
+   <Link to={'/checkout'}>
+  <button  className='w-full md:w-auto px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-md mb-8' >CheckOut Now</button>
+  </Link>
   <table className="w-full text-sm text-left rtl:text-right text-gray-500 ">
     <thead className="text-xs text-gray-700 uppercase bg-gray-50">
       <tr>
@@ -96,9 +100,7 @@ getCart();
       )}
     </tbody>
   </table>
-  <Link to={'/checkout'}>
-  <button  className='btn' >CheckOut Now</button>
-  </Link>
+ 
 
 </div>
 

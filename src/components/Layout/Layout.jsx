@@ -4,20 +4,21 @@ import { useState } from 'react'
 import { useEffect } from 'react';
 import Navbar from '../Navbar/Navbar';
 import { Outlet } from 'react-router-dom';
+import Footer from '../Footer/Footer';
+import ProtectRoute from '../ProtectRoute/ProtectRoute';
 
 
 export default function Layout() {
-    const [counter,setCounter]=useState(0);
-    useEffect(()=>{
-
-
-    },[]);
+   
   return <>
+<div className="min-h-screen flex flex-col">
   <Navbar/>
-  <div className='container py-6 mx-auto my-6'> 
-    <Outlet></Outlet>
-  </div>
-  
+      <main className="flex-grow pt-20 px-4">
+        <Outlet />
+      </main>
+      <ProtectRoute><Footer/></ProtectRoute> 
+ </div>
+
   </>
    
   

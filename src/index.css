@@ -7,10 +7,14 @@
     --shadow: rgba(145,158,171,.2) 0px 2px 4px -1px,rgba(145,158,171,.14) 0px 4px 5px 0px,rgba(145,158,171,.12) 0px 1px 10px 0px;
     --font-family:'Encode Sans Expanded', sans-serif;
     --rating-color:#ffc908;
+    
 }
 
 body{
     font-family: var(--font-family) !important;
+    margin: 0;
+  padding: 0;
+  width: 100%;
 }
 .rating-color
 {
@@ -57,13 +61,13 @@ a , a:hover{
 {
     background-color: var(--light-color) !important;
 }
-.row
+/* .row
 {
     @apply flex flex-wrap py-8 items-center;
 }
  .btn{
     @apply mt-2 px-4 py-2 w-full rounded-lg text-white bg-green-600
- }
+ } */
  .category-img{
     height: 200px;
  }

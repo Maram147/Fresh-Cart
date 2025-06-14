@@ -6,7 +6,7 @@ import mainSlider1 from '../../assets/images/grocery-banner-2.jpeg';
 import mainSlider2 from '../../assets/images/blog-img-2.jpeg';
 import slide1 from '../../assets/images/slider-image-1.jpeg';
 import slide2 from '../../assets/images/slider-image-2.jpeg';
-
+import placeholder from '../../assets/images/placeholder.svg'
 export default function MainSlider() {
   const settings = {
     dots: false,
@@ -43,17 +43,17 @@ export default function MainSlider() {
           <Slider {...settings}>
             <img
               className="w-full h-[50vh] max-h-[400px] min-h-[200px] object-cover"
-              src={mainSlider}
+              src={mainSlider || placeholder}
               alt="mainslider"
             />
             <img
               className="w-full h-[50vh] max-h-[400px] min-h-[200px] object-cover"
-              src={mainSlider1}
+              src={mainSlider1 || placeholder}
               alt="mainslider"
             />
             <img
               className="w-full h-[50vh] max-h-[400px] min-h-[200px] object-cover"
-              src={mainSlider2}
+              src={mainSlider2 || placeholder}
               alt="mainslider"
             />
           </Slider>
@@ -61,12 +61,12 @@ export default function MainSlider() {
         <div className="w-full md:w-1/4 flex flex-col gap-4">
           <img
             className="w-full h-[25vh] max-h-[200px] min-h-[100px] object-cover"
-            src={slide1}
+            src={slide1 || placeholder}
             alt="slide1"
           />
           <img
             className="w-full h-[25vh] max-h-[200px] min-h-[100px] object-cover"
-            src={slide2}
+            src={slide2 || placeholder}
             alt="slide2"
           />
         </div>

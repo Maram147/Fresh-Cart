@@ -1,13 +1,27 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Style from './Products.module.css';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
 import { ClimbingBoxLoader } from 'react-spinners';
-import axios from 'axios'; // إضافة استيراد axios
+import axios from 'axios'; 
+import { CartContext } from '../../Context/CartContext';
+import toast from 'react-hot-toast';
 
 export default function Products() {
+
+   const { addToCart, setCart } = useContext(CartContext);
+
+  async function addProduct(productId) {
+    const response = await addToCart(productId);
+    if (response.data.status === 'success') {
+      setCart(response.data);
+      toast.success('Product added successfully to your cart');
+    } else {
+      toast.error('Error adding product to your cart');
+    }
+  }
   function getRecent() {
     return axios.get(`https://ecommerce.routemisr.com/api/v1/products`);
   }
@@ -41,7 +55,7 @@ export default function Products() {
             key={product.id}
             className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/6 px-2 mb-4"
           >
-            <div className="product py-4 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow">
+            <div className="product bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow">
               <Link to={`/productdetails/${product.id}/${product.category.name}`}>
                 <img
                   className="w-full h-[200px] md:h-[250px] object-cover rounded-t-lg"
@@ -63,7 +77,10 @@ export default function Products() {
                   </div>
                 </div>
               </Link>
-              <button className="w-full py-2 bg-green-600 text-white rounded-b-lg hover:bg-green-700 transition-colors text-center">
+              <button
+                onClick={() => addProduct(product.id)}
+                className="w-full px-4 py-2 bg-green-600 text-white rounded-b-lg hover:bg-green-700 transition-colors text-center h-10 flex items-center justify-center"
+              >
                 Add to cart
               </button>
             </div>

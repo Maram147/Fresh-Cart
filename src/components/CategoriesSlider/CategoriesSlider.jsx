@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Style from './CategoriesSlider.module.css';
 import Slider from 'react-slick';
 import axios from 'axios';
+import placeholder from '../../assets/images/placeholder.svg'
 
 export default function CategoriesSlider() {
   const settings = {
@@ -72,7 +73,7 @@ export default function CategoriesSlider() {
           <div key={category._id} className="px-2">
             <img
               className="w-full h-[150px] sm:h-[180px] md:h-[200px] object-cover rounded-lg"
-              src={category.image}
+              src={category.image || placeholder}
               alt={category.name}
             />
             <h3 className="font-light mt-2 text-center text-sm md:text-base">
