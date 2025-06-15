@@ -25,6 +25,8 @@ import toast, { Toaster } from 'react-hot-toast';
 import Checkout from './components/Checkout/Checkout'
 import Orders from './components/Orders/Orders'
 import ForgetPassword from './components/ForgetPassword/ForgetPassword'
+import { Offline, Online } from "react-detect-offline";
+import OfflinePage from './components/OfflinePage/OfflinePage'
 let query = new QueryClient();
 let router = createBrowserRouter([
   {
@@ -51,17 +53,30 @@ let router = createBrowserRouter([
 function App() {
 
 
-  return (<> <CartContaxtProvider>
+  return (<>
+  <UserContextProvider>
+     <Online>
+   <CartContaxtProvider>
   <QueryClientProvider client={query}>
-    <UserContextProvider>
+    
+
       <CounterContextProvider>
         <RouterProvider router={router}></RouterProvider>
         <Toaster/>
 <ReactQueryDevtools/>
       </CounterContextProvider>
-    </UserContextProvider>
   </QueryClientProvider>
   </CartContaxtProvider>
+  </Online>
+</UserContextProvider>
+
+   <Offline>
+        <div className="network rounded-3">
+          <i className="fas fa-wifi mx-3"></i>
+          you are offline
+        </div>
+        <OfflinePage />
+      </Offline>
   </>
   )
 
