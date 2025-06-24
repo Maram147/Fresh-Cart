@@ -1,7 +1,7 @@
 import React from 'react';
 import offline from '../../assets/images/offline.jpg';
 import { Helmet } from 'react-helmet';
-
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 export default function OfflinePage() {
   return (
     <>
@@ -12,7 +12,7 @@ export default function OfflinePage() {
       </Helmet>
 
       <div className="text-center my-10">
-        <img
+        <LazyLoadImage
           src={offline}
           alt="Offline"
           className="mx-auto rounded-xl w-80 sm:w-96 md:w-[450px] max-w-full"

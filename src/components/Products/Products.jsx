@@ -8,7 +8,7 @@ import { ClimbingBoxLoader } from 'react-spinners';
 import axios from 'axios'; 
 import { CartContext } from '../../Context/CartContext';
 import toast from 'react-hot-toast';
-
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 export default function Products() {
 
    const { addToCart, setCart } = useContext(CartContext);
@@ -57,7 +57,7 @@ export default function Products() {
           >
             <div className="product bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow">
               <Link to={`/productdetails/${product.id}/${product.category.name}`}>
-                <img
+                <LazyLoadImage
                   className="w-full h-[200px] md:h-[250px] object-cover rounded-t-lg"
                   src={product.imageCover}
                   alt={product.title}

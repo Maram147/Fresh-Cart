@@ -6,7 +6,7 @@ import paypal from '../../assets/images/paypal.svg'
 import visa from '../../assets/images/visa.svg'
 import appstore from '../../assets/images/appstore-btn.svg'
 import googleplay from '../../assets/images/googleplay-btn.svg'
-
+import { LazyLoadImage } from 'react-lazy-load-image-component'
 export default function Footer() {
   return (
    <footer className="bg-[#f5f7f6] mt-auto py-10 px-4 w-full">
@@ -41,18 +41,18 @@ export default function Footer() {
       {/* Payment Partners */}
       <div className="flex items-center gap-4 flex-wrap">
         <span className="text-gray-800 font-semibold">Payment Partners</span>
-        <img src={amazon} alt="Amazon Pay" className="h-6" />
-        <img src={american} alt="American Express" className="h-6" />
-        <img src={masterCard} alt="MasterCard" className="h-6" />
-        <img src={paypal} alt="PayPal" className="h-6" />
-        <img src={visa} alt="Visa" className="h-6" />
+        <LazyLoadImage src={amazon} alt="Amazon Pay" className="h-6" />
+        <LazyLoadImage src={american} alt="American Express" className="h-6" />
+        <LazyLoadImage src={masterCard} alt="MasterCard" className="h-6" />
+        <LazyLoadImage src={paypal} alt="PayPal" className="h-6" />
+        <LazyLoadImage src={visa} alt="Visa" className="h-6" />
       </div>
 
       {/* App Downloads */}
       <div className="flex items-center gap-4 flex-wrap">
         <span className="text-gray-800 font-semibold">Get deliveries with FreshCart</span>
-        <img src={appstore} alt="App Store" className="h-10" />
-        <img src={googleplay} alt="Google Play" className="h-10" />
+        <LazyLoadImage src={appstore} alt="App Store" className="h-10" />
+        <LazyLoadImage src={googleplay} alt="Google Play" className="h-10" />
       </div>
     </div>
 

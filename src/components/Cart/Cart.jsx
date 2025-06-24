@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from 'react'
 import { CartContext } from '../../Context/CartContext';
 import { Link } from 'react-router-dom';
 import { Trash2 } from 'lucide-react';
-
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 export default function Cart() {
   const [cartDetails, setcartDetails] = useState(null);
   const [showConfirm, setShowConfirm] = useState(false);
@@ -64,7 +64,7 @@ export default function Cart() {
             {cartDetails?.data.products.map(product => (
               <tr key={product.product.id} className="bg-white border-b hover:bg-gray-50">
                 <td className="p-4">
-                  <img src={product.product.imageCover} className="w-16 md:w-32 rounded" alt="Product" />
+                  <LazyLoadImage src={product.product.imageCover} className="w-16 md:w-32 rounded-full" alt="Product" />
                 </td>
                 <td className="px-4 py-4 font-semibold text-gray-900">{product.product.title}</td>
                 <td className="px-4 py-4">
@@ -107,7 +107,7 @@ export default function Cart() {
           {cartDetails?.data.products.map(product => (
             <div key={product.product.id} className="bg-white shadow p-4 rounded-lg">
               <div className="flex items-center gap-4 mb-4">
-                <img src={product.product.imageCover} alt={product.product.title} className="w-20 h-20 object-cover rounded" />
+                <LazyLoadImage src={product.product.imageCover} alt={product.product.title} className="w-20 h-20 object-cover rounded-full" />
                 <div>
                   <h3 className="font-semibold text-gray-800">{product.product.title}</h3>
                   <p className="text-sm text-gray-600">{product.price} EGP</p>

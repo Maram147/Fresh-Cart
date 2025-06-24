@@ -3,7 +3,7 @@ import Style from './CategoriesSlider.module.css';
 import Slider from 'react-slick';
 import axios from 'axios';
 import placeholder from '../../assets/images/placeholder.svg'
-
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 export default function CategoriesSlider() {
   const settings = {
     dots: false,
@@ -71,7 +71,7 @@ export default function CategoriesSlider() {
       <Slider {...settings}>
         {categories?.map((category) => (
           <div key={category._id} className="px-2">
-            <img
+            <LazyLoadImage
               className="w-full h-[150px] sm:h-[180px] md:h-[200px] object-cover rounded-lg"
               src={category.image || placeholder}
               alt={category.name}

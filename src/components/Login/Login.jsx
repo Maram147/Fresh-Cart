@@ -3,7 +3,7 @@ import Style from './Login.module.css'
 import { useState } from 'react'
 import { useEffect } from 'react';
 import { useFormik } from 'formik';
-import axios, { Axios } from 'axios';
+import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
 import {UserContext} from '../../Context/UserContext'
@@ -22,29 +22,24 @@ export default function Login() {
   let navigate=useNavigate();
 const[apiError,setapiError]=useState('');
 const[isLoading,setIsLoading]=useState(false);
- async function handleLogin(formValues)
-{
+async function handleLogin(formValues) {
   setIsLoading(true);
- 
-  let {data}=await axios.post(`https://ecommerce.routemisr.com/api/v1/auth/signin`,formValues)
-   .then((apiResponse)=>{
-    if(apiResponse?.data?.message==='success') {
-      localStorage.setItem('userToken',apiResponse.data.token)
-        setUserLogin(apiResponse.data.token)
-    navigate('/')
-    setIsLoading(false);
-    }
-   })
-  .catch((apiResponse)=>{
-    setIsLoading(false);
-    setapiError(apiResponse?.response?.data?.message);
-  })
-//  console.log(data)
-//   if(data.message==='success'){
-// navigate('/')
-//   }
-//   console.log(formValues);
+  try {
+    const { data } = await axios.post(
+      `https://ecommerce.routemisr.com/api/v1/auth/signin`,
+      formValues
+    );
 
+    if (data.message === "success") {
+      localStorage.setItem("userToken", data.token);
+      setUserLogin(data.token);
+      navigate("/");
+    }
+  } catch (error) {
+    setapiError(error?.response?.data?.message);
+  } finally {
+    setIsLoading(false);
+  }
 }
 
 
@@ -78,7 +73,7 @@ onSubmit:handleLogin
   <form onSubmit={formik.handleSubmit}>
 
 <div className="relative z-0 w-full mb-5 group">
-  <input id="email" onBlur={formik.handleBlur} onChange={formik.handleChange} defaultValue={formik.values.email} type="email" name="email" className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-green-600 peer" placeholder=" " />
+  <input id="email" onBlur={formik.handleBlur} onChange={formik.handleChange} value={formik.values.email} placeholder=" " type="email" name="email" className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-green-600 peer" />
   <label htmlFor="email" className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-2 z-0 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-green-600 peer-focus:dark:text-green-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Enter Your Email</label>
 </div>
 
@@ -88,7 +83,7 @@ onSubmit:handleLogin
 
 
 <div className="relative z-0 w-full mb-5 group">
-  <input id="password" onBlur={formik.handleBlur} onChange={formik.handleChange} defaultValue={formik.values.password} type="password" name="password" className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-green-600 peer" placeholder=" " />
+  <input id="password" onBlur={formik.handleBlur} onChange={formik.handleChange} value={formik.values.password} placeholder=" " type="password" name="password" className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none  focus:outline-none focus:ring-0 focus:border-green-600 peer" />
   <label htmlFor="password" className="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-2 z-0 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-green-600 peer-focus:dark:text-green-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Enter Your Password</label>
 </div>
 {formik.errors.password && formik.touched.password?<div className="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50" role="alert">
@@ -100,11 +95,11 @@ onSubmit:handleLogin
 :'Login'}
     </button>
     <div className="pt-4">
-    <Link to={'./../ForgetPassword'} className=' pt-4  text-green-600' >Forget Password ?</Link>
+    <Link to='/ForgetPassword' className=' pt-4  text-green-600' >Forget Password ?</Link>
 </div>
     <div className='flex items-center'>
-    <p className='pt-4  text-green-600'>Didn't Have Account Yet?<span className='font-semibold'> <Link to={'./../Register'}>Register Now</Link></span> </p>
-  
+    <p className='pt-4  text-green-600'>Didn't Have Account Yet?<span className='font-semibold'> <Link to='/Register'>Register Now</Link></span> </p>
+
   </div>
   </form>
   </div>

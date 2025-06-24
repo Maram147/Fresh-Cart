@@ -6,7 +6,7 @@ import { useQuery } from '@tanstack/react-query';
 import { ClimbingBoxLoader } from 'react-spinners';
 import toast from 'react-hot-toast';
 import { CartContext } from '../../Context/CartContext';
-
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 export default function RecentProducts() {
   const { addToCart, setCart } = useContext(CartContext);
 
@@ -55,7 +55,7 @@ export default function RecentProducts() {
           >
             <div className="product bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow">
               <Link to={`/productdetails/${product.id}/${product.category.name}`}>
-                <img
+                <LazyLoadImage
                   className="w-full h-[200px] sm:h-[250px] md:h-[280px] object-cover rounded-t-lg"
                   src={product.imageCover}
                   alt={product.title}

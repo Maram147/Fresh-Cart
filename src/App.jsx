@@ -27,20 +27,21 @@ import Orders from './components/Orders/Orders'
 import ForgetPassword from './components/ForgetPassword/ForgetPassword'
 import { Offline, Online } from "react-detect-offline";
 import OfflinePage from './components/OfflinePage/OfflinePage'
+import useOnlineStatus from './components/useOnlineStatus/useOnlineStatus';
 let query = new QueryClient();
 let router = createBrowserRouter([
   {
     path: '', element: <Layout />, children: [
-      { index: true, element: <Home />},
+      { index: true, element: <Home /> },
       { path: 'cart', element: <ProtectRoute><Cart /></ProtectRoute> },
       { path: 'products', element: <Products /> },
       { path: 'productdetails/:id/:category', element: <ProductDetails /> },
-      { path: 'checkout', element: <ProtectRoute><Checkout/></ProtectRoute> },
-      { path: 'allorders', element: <ProtectRoute><Orders/></ProtectRoute> },
-      { path: 'forgetpassword', element: <ProtectRoute><ForgetPassword/></ProtectRoute> },
+      { path: 'checkout', element: <ProtectRoute><Checkout /></ProtectRoute> },
+      { path: 'allorders', element: <ProtectRoute><Orders /></ProtectRoute> },
+      { path: 'forgetpassword', element: <ProtectRoute><ForgetPassword /></ProtectRoute> },
 
       { path: 'categories', element: <Categories /> },
-      { path: 'brands', element: <Brands />},
+      { path: 'brands', element: <Brands /> },
       { path: 'login', element: <Login /> },
       { path: 'register', element: <Register /> },
       { path: '*', element: <Notfound /> }
@@ -51,32 +52,38 @@ let router = createBrowserRouter([
   }
 ])
 function App() {
-
+  const isOnline = useOnlineStatus();
 
   return (<>
-  <UserContextProvider>
-     <Online>
-   <CartContaxtProvider>
-  <QueryClientProvider client={query}>
-    
+    <UserContextProvider>
 
-      <CounterContextProvider>
-        <RouterProvider router={router}></RouterProvider>
-        <Toaster/>
-<ReactQueryDevtools/>
-      </CounterContextProvider>
-  </QueryClientProvider>
-  </CartContaxtProvider>
-  </Online>
-</UserContextProvider>
+      <CartContaxtProvider>
+        <QueryClientProvider client={query}>
 
-   <Offline>
+
+          <CounterContextProvider>
+            <RouterProvider router={router}></RouterProvider>
+            <Toaster />
+            <ReactQueryDevtools />
+          </CounterContextProvider>
+        </QueryClientProvider>
+      </CartContaxtProvider>
+
+    </UserContextProvider>
+
+    {/* <Offline>
         <div className="network rounded-3">
           <i className="fas fa-wifi mx-3"></i>
           you are offline
         </div>
         <OfflinePage />
-      </Offline>
+      </Offline> */}
+    {!isOnline && (
+      <div className="network fixed bottom-4 left-4 bg-red-500 text-white px-4 py-2 z-50 rounded">
+        <i className="fas fa-wifi mx-2"></i> You are offline
+        <OfflinePage />
+      </div>
+    )}
   </>
   )
 
