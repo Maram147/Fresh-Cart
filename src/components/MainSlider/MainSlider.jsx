@@ -22,8 +22,8 @@ export default function HomeSlider() {
     'absolute top-0 left-0 p-6 sm:p-10 lg:ps-16 lg:py-20 text-black font-sans';
 
   const renderSlide = (img, offer, title, price) => (
-    <div className="relative rounded-lg">
-      <LazyLoadImage src={img} className="w-full rounded-lg h-[525px] object-cover" alt="slider" />
+    <div className="relative rounded-lg aspect-[16/9] overflow-hidden">
+      <LazyLoadImage src={img} className="w-full h-full object-cover rounded-lg" alt="slider" />
       <div className={`max-w-2xl ${slideTextStyle}`}>
         <div className="flex items-center mb-4">
           <span>Exclusive Offer</span>
@@ -55,7 +55,7 @@ export default function HomeSlider() {
 
       <div className="w-full xl:w-4/12 flex flex-col gap-4">
         <div className="relative w-full">
-          <LazyLoadImage src={imgSlider4} className="w-full rounded-lg h-[250px] object-cover" alt="banner1" />
+          <LazyLoadImage src={imgSlider4} className="w-full rounded-lg h-[270px] object-cover" alt="banner1" />
           <div className="absolute top-0 left-0 p-6 font-sans text-black">
             <h3 className="text-2xl font-bold mb-3">10% cashback on<br/>personal care</h3>
             <div className="text-lg mb-4">
@@ -66,7 +66,7 @@ export default function HomeSlider() {
           </div>
         </div>
         <div className="relative w-full">
-          <LazyLoadImage src={imgSlider5} className="w-full rounded-lg h-[250px] object-cover" alt="banner2" />
+          <LazyLoadImage src={imgSlider5} className="w-full rounded-lg h-[270px] object-cover" alt="banner2" />
           <div className="absolute top-0 left-0 p-6 font-sans text-black">
             <h3 className="text-2xl font-bold mb-3">Say yes to<br/>season’s fresh</h3>
             <div className="text-lg mb-4">
