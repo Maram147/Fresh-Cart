@@ -1,27 +1,27 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { Link } from 'react-router-dom';
 import { CartContext } from '../../Context/CartContext';
-
 import { Trash2 } from 'lucide-react';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 export default function WishList() {
   const [WishListDetails, setWishListDetails] = useState(null);
   const [showConfirm, setShowConfirm] = useState(false);
   const [deleteId, setDeleteId] = useState(null);
-  const {  setWishList,removeWishListItem,addToWishList,getWishListItem } = useContext(CartContext);
+  const { setWishList, removeWishListItem, addToWishList, getWishListItem } = useContext(CartContext);
 
   async function loadWishList() {
-  const response = await getWishListItem();
-  setWishListDetails(response.data);
-}
+    const response = await getWishListItem();
+    setWishListDetails(response.data);
+    console.log("Wishlist Response:", response.data);
+
+  }
 
 
   async function confirmRemove() {
     if (deleteId) {
       const response = await removeWishListItem(deleteId);
 
-      await loadWishList(); 
-
+     await loadWishList(); 
       setShowConfirm(false);
       setDeleteId(null);
     }
@@ -30,8 +30,8 @@ export default function WishList() {
 
 
   useEffect(() => {
-  loadWishList();
-}, []);
+    loadWishList();
+  }, []);
 
 
   return (
@@ -51,47 +51,51 @@ export default function WishList() {
             </tr>
           </thead>
           <tbody>
-            {WishListDetails?.data.products.map(product => (
-              <tr key={product.product.id} className="bg-white border-b hover:bg-gray-50">
-                <td className="p-4">
-                  <LazyLoadImage src={product.product.imageCover} className="w-16 md:w-32 rounded-full" alt="Product" />
-                </td>
-                <td className="px-4 py-4 font-semibold text-gray-900">{product.product.title}</td>
-                <td className="px-4 py-4 font-semibold text-gray-900">{product.price} EGP</td>
-                <td className="px-4 py-4">
-                  <button
-                    onClick={() => { setDeleteId(product.product.id); setShowConfirm(true); }}
-                    className="text-red-600 hover:text-red-400 font-medium flex items-center gap-1 p-2 rounded-md"
-                  >
-                    <Trash2 size={16} /> Remove
-                  </button>
-                </td>
-              </tr>
-            ))}
+            {WishListDetails?.data?.length > 0 ? (
+              WishListDetails.data.map(product => (
+                <tr key={product.id} className="bg-white border-b hover:bg-gray-50">
+                  <td className="p-4">
+                    <LazyLoadImage src={product.imageCover} className="w-16 md:w-32 rounded-full" alt="Product" />
+                  </td>
+                  <td className="px-4 py-4 font-semibold text-gray-900">{product.title}</td>
+                  <td className="px-4 py-4 font-semibold text-gray-900">{product.price} EGP</td>
+                  <td className="px-4 py-4">
+                    <button
+                      onClick={() => { setDeleteId(product.id); setShowConfirm(true); }}
+                      className="text-red-600 hover:text-red-400 font-medium flex items-center gap-1 p-2 rounded-md"
+                    >
+                      <Trash2 size={16} /> Remove
+                    </button>
+                  </td>
+                </tr>
+              ))
+            ) : null}
           </tbody>
         </table>
 
         {/* Mobile View */}
         <div className="md:hidden space-y-4">
-          {WishListDetails?.data.products.map(product => (
-            <div key={product.product.id} className="bg-white shadow p-4 rounded-lg">
-              <div className="flex items-center gap-4 mb-4">
-                <LazyLoadImage src={product.product.imageCover} alt={product.product.title} className="w-20 h-20 object-cover rounded-full" />
-                <div>
-                  <h3 className="font-semibold text-gray-800">{product.product.title}</h3>
-                  <p className="text-sm text-gray-600">{product.price} EGP</p>
-                </div>
-              </div>
-              <div className="flex justify-between items-center">
-                <button
-                  onClick={() => { setDeleteId(product.product.id); setShowConfirm(true); }}
-                  className="text-red-600 hover:text-red-400 text-sm flex items-center gap-1"
-                >
-                  <Trash2 size={16} /> Remove
-                </button>
-              </div>
-            </div>
-          ))}
+  {WishListDetails?.data?.length > 0 ? (
+    WishListDetails.data.map(product => (
+      <div key={product.id} className="bg-white shadow p-4 rounded-lg">
+        <div className="flex items-center gap-4 mb-4">
+          <LazyLoadImage src={product.imageCover} alt={product.title} className="w-20 h-20 object-cover rounded-full" />
+          <div>
+            <h3 className="font-semibold text-gray-800">{product.title}</h3>
+            <p className="text-sm text-gray-600">{product.price} EGP</p>
+          </div>
+        </div>
+        <div className="flex justify-between items-center">
+          <button
+            onClick={() => { setDeleteId(product.id); setShowConfirm(true); }}
+            className="text-red-600 hover:text-red-400 text-sm flex items-center gap-1"
+          >
+            <Trash2 size={16} /> Remove
+          </button>
+        </div>
+      </div>
+    ))
+  ) : null}
         </div>
       </div>
 

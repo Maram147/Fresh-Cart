@@ -60,13 +60,13 @@ export default function CartContextProvider({ children }) {
 
   // WishList functions
   function getWishListItem() {
-    return axios.get(`https://ecommerce.routemisr.com/api/v1/wish-list`, { headers });
+    return axios.get(`https://ecommerce.routemisr.com/api/v1/wishlist`, { headers });
   }
   function addToWishList(productId) {
     return axios.post(`https://ecommerce.routemisr.com/api/v1/wishlist`, { productId }, { headers });
   }
   function removeWishListItem(productId) {
-    return axios.delete(`https://ecommerce.routemisr.com/api/v1/wish/${productId}`, { headers });
+    return axios.delete(`https://ecommerce.routemisr.com/api/v1/wishlist/${productId}`, { headers });
   }
 
   async function getWishList() {

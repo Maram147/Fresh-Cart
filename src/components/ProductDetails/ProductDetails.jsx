@@ -5,6 +5,7 @@ import axios from 'axios';
 import Slider from 'react-slick';
 import { CartContext } from '../../Context/CartContext';
 import toast from 'react-hot-toast';
+import { Heart } from 'lucide-react';
 
 export default function ProductDetails() {
   const settings = {
@@ -15,24 +16,24 @@ export default function ProductDetails() {
     slidesToScroll: 1,
     autoplay: true,
   };
+
   const { id, category } = useParams();
+  const {
+    addToCart,
+    setCart,
+    addToWishList,
+    removeWishListItem,
+    getWishListItem,
+    setWishList,
+  } = useContext(CartContext);
+
   const [productDetails, setProductDetails] = useState(null);
   const [relatedProducts, setRelatedProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [wishListProductIds, setWishListProductIds] = useState([]);
 
-   const { addToCart, setCart } = useContext(CartContext);
-
-  async function addProduct(productId) {
-    const response = await addToCart(productId);
-    if (response.data.status === 'success') {
-      setCart(response.data);
-      toast.success('Product added successfully to your cart');
-    } else {
-      toast.error('Error adding product to your cart');
-    }
-  }
-
+  // Fetch product details
   function getProductDetails(id) {
     setLoading(true);
     axios
@@ -47,12 +48,14 @@ export default function ProductDetails() {
       .finally(() => setLoading(false));
   }
 
+  // Fetch related products
   function getRelatedProducts(category) {
     axios
       .get(`https://ecommerce.routemisr.com/api/v1/products`)
       .then(({ data }) => {
-        let allProducts = data.data;
-        let related = allProducts.filter((product) => product.category.name === category);
+        let related = data.data.filter(
+          (product) => product.category.name === category
+        );
         setRelatedProducts(related);
       })
       .catch((err) => {
@@ -61,6 +64,55 @@ export default function ProductDetails() {
       });
   }
 
+  // Wishlist fetch
+  useEffect(() => {
+    async function fetchWishlist() {
+      try {
+        const res = await getWishListItem();
+        setWishList(res.data);
+        const ids = res.data?.data?.map((p) => p._id) || [];
+        setWishListProductIds(ids);
+      } catch (err) {
+        console.error('Error fetching wishlist:', err);
+      }
+    }
+
+    fetchWishlist();
+  }, []);
+
+  // Toggle wishlist
+  async function toggleWishList(productId) {
+    if (wishListProductIds.includes(productId)) {
+      await removeWishListItem(productId);
+      setWishListProductIds((prev) => prev.filter((id) => id !== productId));
+      const updated = await getWishListItem();
+      setWishList(updated.data);
+      toast.success('Removed from wishlist');
+    } else {
+      const res = await addToWishList(productId);
+      if (res.data.status === 'success') {
+        setWishListProductIds((prev) => [...prev, productId]);
+        const updated = await getWishListItem();
+        setWishList(updated.data);
+        toast.success('Added to wishlist');
+      } else {
+        toast.error('Error adding to wishlist');
+      }
+    }
+  }
+
+  // Add to cart
+  async function addProduct(productId) {
+    const response = await addToCart(productId);
+    if (response.data.status === 'success') {
+      setCart(response.data);
+      toast.success('Product added successfully to your cart');
+    } else {
+      toast.error('Error adding product to your cart');
+    }
+  }
+
+  // On mount/update
   useEffect(() => {
     getProductDetails(id);
     getRelatedProducts(category);
@@ -92,19 +144,32 @@ export default function ProductDetails() {
 
   return (
     <div className="container mx-auto px-4">
+      {/* Product Details */}
       <div className="flex flex-col md:flex-row gap-6">
-        <div className="w-full md:w-1/3">
-          <Slider {...settings}>
-            {productDetails.images?.map((src, index) => (
-              <img
-                key={index}
-                className="w-full h-[300px] md:h-[400px] object-cover rounded-lg"
-                src={src}
-                alt={productDetails.title}
-              />
-            ))}
-          </Slider>
-        </div>
+       <div className="relative w-full md:w-1/3">
+  <Slider {...settings}>
+    {productDetails.images?.map((src, index) => (
+      <img
+        key={index}
+        className="w-full h-[300px] md:h-[400px] object-cover rounded-lg"
+        src={src}
+        alt={productDetails.title}
+      />
+    ))}
+  </Slider>
+  <button
+    onClick={() => toggleWishList(productDetails.id)}
+    className="absolute top-2 right-2 z-10"
+  >
+    <Heart
+      className={`w-6 h-6 ${wishListProductIds.includes(productDetails.id)
+        ? 'fill-red-600 text-red-600'
+        : 'text-gray-400'
+        }`}
+    />
+  </button>
+</div>
+
         <div className="w-full md:w-2/3 p-4 text-start">
           <h1 className="text-lg md:text-2xl font-normal text-gray-950">
             {productDetails.title}
@@ -119,14 +184,15 @@ export default function ProductDetails() {
             </span>
           </div>
           <button
-                onClick={() => addProduct(productDetails.id)}
-                className="w-full px-4 py-2 bg-green-600 text-white rounded-b-lg hover:bg-green-700 transition-colors text-center h-10 flex items-center justify-center"
-              >
-                Add to cart
-              </button>
+            onClick={() => addProduct(productDetails.id)}
+            className="w-full px-4 py-2 bg-green-600 text-white rounded-b-lg hover:bg-green-700 transition-colors text-center h-10 flex items-center justify-center"
+          >
+            Add to cart
+          </button>
         </div>
       </div>
 
+      {/* Related Products */}
       <div className="mt-8">
         <h2 className="text-xl md:text-2xl font-medium text-gray-800 mb-4">
           Related Products
@@ -137,7 +203,18 @@ export default function ProductDetails() {
               key={product.id}
               className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/6 px-2 mb-4"
             >
-              <div className="product  bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow">
+              <div className="relative product bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow">
+                <button
+                  onClick={() => toggleWishList(product.id)}
+                  className="absolute top-2 right-2 z-10"
+                >
+                  <Heart
+                    className={`w-5 h-5 ${wishListProductIds.includes(product.id)
+                      ? 'fill-red-600 text-red-600'
+                      : 'text-gray-400'
+                      }`}
+                  />
+                </button>
                 <Link to={`/productdetails/${product.id}/${product.category.name}`}>
                   <img
                     className="w-full h-[150px] md:h-[180px] object-cover rounded-t-lg"
@@ -160,11 +237,11 @@ export default function ProductDetails() {
                   </div>
                 </Link>
                 <button
-                onClick={() => addProduct(product.id)}
-                className="w-full px-4 py-2 bg-green-600 text-white rounded-b-lg hover:bg-green-700 transition-colors text-center h-10 flex items-center justify-center"
-              >
-                Add to cart
-              </button>
+                  onClick={() => addProduct(product.id)}
+                  className="w-full px-4 py-2 bg-green-600 text-white rounded-b-lg hover:bg-green-700 transition-colors text-center h-10 flex items-center justify-center"
+                >
+                  Add to cart
+                </button>
               </div>
             </div>
           ))}
