@@ -5,13 +5,14 @@ import { useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
 import { ClimbingBoxLoader } from 'react-spinners';
-import axios from 'axios'; 
+import axios from 'axios';
 import { CartContext } from '../../Context/CartContext';
 import toast from 'react-hot-toast';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
+import { Heart } from 'lucide-react';
 export default function Products() {
 
-   const { addToCart, setCart } = useContext(CartContext);
+  const { addToCart, setCart } = useContext(CartContext);
 
   async function addProduct(productId) {
     const response = await addToCart(productId);
@@ -22,6 +23,20 @@ export default function Products() {
       toast.error('Error adding product to your cart');
     }
   }
+  const { addToWishList, setWishList } = useContext(CartContext);
+  async function addWishList(productId) {
+    const response = await addToWishList(productId);
+    if (response.data.status === 'success') {
+      setWishList(response.data);
+      toast.success('Product added successfully to your wishlist');
+    } else {
+      toast.error('Error adding product to your wishlist');
+    }
+  }
+
+
+
+
   function getRecent() {
     return axios.get(`https://ecommerce.routemisr.com/api/v1/products`);
   }
@@ -69,11 +84,18 @@ export default function Products() {
                   <h3 className="text-base md:text-lg font-normal text-gray-800 mb-2 line-clamp-2">
                     {product.title.split(' ').slice(0, 2).join(' ')}
                   </h3>
+                  <span className="text-sm md:text-base">
+                    {product.ratingsAverage} <i className="fas fa-star text-yellow-500"></i>
+                  </span>
                   <div className="flex justify-between items-center">
                     <span className="text-sm md:text-base">{product.price} EGP</span>
-                    <span className="text-sm md:text-base">
-                      {product.ratingsAverage} <i className="fas fa-star text-yellow-500"></i>
-                    </span>
+                    <Link to='/wishlist'>
+                      <button onClick={() => addWishList(product.id)} className="text-sm md:text-base">
+                        <Heart />
+                      </button>
+                    </Link>
+
+
                   </div>
                 </div>
               </Link>

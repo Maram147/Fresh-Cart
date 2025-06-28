@@ -1,13 +1,13 @@
 import React, { useContext, useState, useEffect, useRef } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
-import { LogOut } from 'lucide-react';
+import { LogOut, Heart  } from 'lucide-react';
 import logo from '../../assets/images/freshcart-logo.svg';
 import { UserContext } from '../../Context/UserContext';
 import { CartContext } from '../../Context/CartContext';
-
 export default function Navbar() {
   const { userLogin, setUserLogin } = useContext(UserContext);
   const { cart } = useContext(CartContext);
+  const {wishList} = useContext(CartContext);
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef();
@@ -65,6 +65,17 @@ export default function Navbar() {
     {/* Right side buttons for desktop (Cart + Logout) */}
 {userLogin && (
   <ul className="hidden md:flex items-center space-x-4">
+     <li>
+
+      <NavLink to="/WishList" className="cursor-pointer relative py-2">
+        <Heart />
+        {wishList?.numOfWishListItems > 0 && (
+          <span className="bg-green-600 text-white text-xs px-1 rounded-full absolute -top-2 -right-2">
+            {wishList.numOfWishListItems}
+          </span>
+        )}
+      </NavLink>
+    </li>
     <li>
       <NavLink to="/cart" className="cursor-pointer relative py-2">
         <i className="fa-solid fa-cart-shopping text-green-600 fa-xl"></i>
@@ -83,6 +94,7 @@ export default function Navbar() {
         Logout <LogOut size={16} />
       </button>
     </li>
+   
   </ul>
 )}
 

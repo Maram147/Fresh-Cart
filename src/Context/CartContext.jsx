@@ -7,6 +7,7 @@ export const CartContext = createContext(null);
 export default function CartContextProvider({ children }) {
   const { userLogin } = useContext(UserContext);
   const [cart, setCart] = useState(0);
+  const [WishList, setWishList] = useState(0);
 
   const headers = { token: userLogin };
 
@@ -55,9 +56,39 @@ export default function CartContextProvider({ children }) {
     }
   }, [userLogin]);
 
+
+
+  // WishList functions
+  function getWishListItem() {
+    return axios.get(`https://ecommerce.routemisr.com/api/v1/wish-list`, { headers });
+  }
+  function addToWishList(productId) {
+    return axios.post(`https://ecommerce.routemisr.com/api/v1/wishlist`, { productId }, { headers });
+  }
+  function removeWishListItem(productId) {
+    return axios.delete(`https://ecommerce.routemisr.com/api/v1/wish/${productId}`, { headers });
+  }
+
+  async function getWishList() {
+    try {
+      const response = await getWishListItem();
+      if (response?.data?.status === "success") {
+        setWishList(response.data);
+      }
+    } catch (error) {
+      console.error("Error loading cart:", error);
+    }
+  }
+
+  useEffect(() => {
+    if (userLogin) {
+      getWishList();
+    }
+  }, [userLogin]);
+
   return (
     <CartContext.Provider
-      value={{ checkOut, cart, setCart, addToCart, getCartItem, removeCartItem, updateCartItem }}
+      value={{ checkOut, cart, setCart, addToCart, getCartItem, removeCartItem, updateCartItem,setWishList, WishList, getWishList,getWishListItem, addToWishList, removeWishListItem }}
     >
       {children}
     </CartContext.Provider>

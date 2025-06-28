@@ -28,12 +28,14 @@ import ForgetPassword from './components/ForgetPassword/ForgetPassword'
 import { Offline, Online } from "react-detect-offline";
 import OfflinePage from './components/OfflinePage/OfflinePage'
 import useOnlineStatus from './components/useOnlineStatus/useOnlineStatus';
+import WishList from './components/WishList/WishList'
 let query = new QueryClient();
 let router = createBrowserRouter([
   {
     path: '', element: <Layout />, children: [
       { index: true, element: <Home /> },
       { path: 'cart', element: <ProtectRoute><Cart /></ProtectRoute> },
+      { path: 'wishlist', element: <ProtectRoute><WishList /></ProtectRoute> },
       { path: 'products', element: <Products /> },
       { path: 'productdetails/:id/:category', element: <ProductDetails /> },
       { path: 'checkout', element: <ProtectRoute><Checkout /></ProtectRoute> },
