@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import avter from '../../assets/images/avatar-370-456322-512.webp';
+import avter from '../../assets/images/avter.svg';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { FaUser, FaEnvelope } from 'react-icons/fa';
 import { UserContext } from '../../Context/UserContext';
@@ -21,7 +21,7 @@ export default function Profile() {
       <div className="text-center mb-6">
         <LazyLoadImage
           src={avter}
-          className="w-32 h-32 mx-auto rounded-full object-cover"
+          className="w-80 h-80 mx-auto rounded-full object-cover"
           alt="userAvatar"
         />
         <h3 className="my-2 text-xl font-semibold">{userProfile.name}</h3>
