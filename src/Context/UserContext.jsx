@@ -1,20 +1,30 @@
 import { createContext, useContext, useEffect, useState } from "react";
 
-export let UserContext = createContext(0);
+export const UserContext = createContext();
+
 export default function UserContextProvider(props) {
-    const [userLogin, setUserLogin] = useState(() => localStorage.getItem("userToken"));
+  const [userLogin, setUserLogin] = useState(() => localStorage.getItem("userToken"));
+  const [userProfile, setUserProfile] = useState(() => {
+    const profile = localStorage.getItem("userProfile");
+    return profile ? JSON.parse(profile) : null;
+  });
 
-    useEffect(() => {
-        if (localStorage.getItem('userToken') !== null) {
-            setUserLogin(localStorage.getItem('userToken'))
-        }
+  useEffect(() => {
+    const token = localStorage.getItem("userToken");
+    const profile = localStorage.getItem("userProfile");
 
-    }, []);
-    return (<>
+    if (token) {
+      setUserLogin(token);
+    }
 
-        <UserContext.Provider value={{ userLogin, setUserLogin }}>
-            {props.children}
+    if (profile) {
+      setUserProfile(JSON.parse(profile));
+    }
+  }, []);
 
-        </UserContext.Provider>
-    </>)
+  return (
+    <UserContext.Provider value={{ userLogin, setUserLogin, userProfile, setUserProfile }}>
+      {props.children}
+    </UserContext.Provider>
+  );
 }

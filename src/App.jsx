@@ -29,6 +29,7 @@ import { Offline, Online } from "react-detect-offline";
 import OfflinePage from './components/OfflinePage/OfflinePage'
 import useOnlineStatus from './components/useOnlineStatus/useOnlineStatus';
 import WishList from './components/WishList/WishList'
+import Profile from './components/Profile/Profile'
 let query = new QueryClient();
 let router = createBrowserRouter([
   {
@@ -36,6 +37,7 @@ let router = createBrowserRouter([
       { index: true, element: <Home /> },
       { path: 'cart', element: <ProtectRoute><Cart /></ProtectRoute> },
       { path: 'wishlist', element: <ProtectRoute><WishList /></ProtectRoute> },
+      { path: 'profile', element: <ProtectRoute><Profile /></ProtectRoute> },
       { path: 'products', element: <Products /> },
       { path: 'productdetails/:id/:category', element: <ProductDetails /> },
       { path: 'checkout', element: <ProtectRoute><Checkout /></ProtectRoute> },

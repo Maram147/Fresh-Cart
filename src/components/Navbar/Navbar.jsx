@@ -6,7 +6,7 @@ import { UserContext } from '../../Context/UserContext';
 import { CartContext } from '../../Context/CartContext';
 export default function Navbar() {
   const { userLogin, setUserLogin } = useContext(UserContext);
-const { cart = {}, WishList = {} } = useContext(CartContext);
+  const { cart = {}, WishList = {} } = useContext(CartContext);
 
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -67,12 +67,17 @@ const { cart = {}, WishList = {} } = useContext(CartContext);
             <li>
 
               <NavLink to="/wishlist" className="cursor-pointer relative py-2">
-                <Heart />
+                <Heart className='text-green-600' />
                 {WishList?.count > 0 && (
                   <span className="bg-green-600 text-white text-xs px-1 rounded-full absolute -top-2 -right-2">
                     {WishList.count}
                   </span>
                 )}
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to="/profile" className="cursor-pointer relative py-2">
+                <i className="fa-regular fa-user fa-xl text-green-600"></i>
               </NavLink>
             </li>
             <li>
@@ -148,14 +153,21 @@ const { cart = {}, WishList = {} } = useContext(CartContext);
             ) : (
               <>
                 <li>
+                  <NavLink to="/wishlist" className="flex items-center justify-center py-2 text-green-600">
+                    <span className="relative">
+                      <Heart className="fa-xl" />
+                      {WishList?.count > 0 && (
+                        <span className="bg-green-600 text-white text-xs px-1 rounded-full absolute -top-2 -right-2">
+                          {WishList.count}
+                        </span>
+                      )}
+                    </span>
+                  </NavLink>
+                </li>
 
-                  <NavLink to="/wishlist" className="cursor-pointer relative py-2">
-                    <Heart />
-                    {WishList?.count > 0 && (
-                      <span className="bg-green-600 text-white text-xs px-1 rounded-full absolute -top-2 -right-2">
-                        {WishList.count}
-                      </span>
-                    )}
+                <li>
+                  <NavLink to="/profile" className="cursor-pointer relative py-2  text-green-600">
+                    <i className="fa-regular fa-user fa-xl"></i>
                   </NavLink>
                 </li>
                 <li>

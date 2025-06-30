@@ -18,7 +18,8 @@ export default function Login() {
   
   
   })
-  let{setUserLogin}=useContext(UserContext)
+  let { setUserLogin, setUserProfile } = useContext(UserContext);
+
   let navigate=useNavigate();
 const[apiError,setapiError]=useState('');
 const[isLoading,setIsLoading]=useState(false);
@@ -33,6 +34,10 @@ async function handleLogin(formValues) {
     if (data.message === "success") {
       localStorage.setItem("userToken", data.token);
       setUserLogin(data.token);
+
+      localStorage.setItem("userProfile", JSON.stringify(data.user));
+      setUserProfile(data.user); 
+
       navigate("/");
     }
   } catch (error) {
@@ -41,6 +46,7 @@ async function handleLogin(formValues) {
     setIsLoading(false);
   }
 }
+
 
 
 
