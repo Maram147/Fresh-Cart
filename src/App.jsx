@@ -30,6 +30,8 @@ import OfflinePage from './components/OfflinePage/OfflinePage'
 import useOnlineStatus from './components/useOnlineStatus/useOnlineStatus';
 import WishList from './components/WishList/WishList'
 import Profile from './components/Profile/Profile'
+import CategoriesDetails from './components/CategoriesDetails/CategoriesDetails'
+import BrandsDetails from './components/BrandsDetails/BrandsDetails'
 let query = new QueryClient();
 let router = createBrowserRouter([
   {
@@ -45,7 +47,10 @@ let router = createBrowserRouter([
       { path: 'forgetpassword', element: <ProtectRoute><ForgetPassword /></ProtectRoute> },
 
       { path: 'categories', element: <Categories /> },
+      { path: 'categoriesdetails/:id', element: <CategoriesDetails /> },
+
       { path: 'brands', element: <Brands /> },
+      { path: 'brandsdetails/:id', element: <BrandsDetails /> },
       { path: 'login', element: <Login /> },
       { path: 'register', element: <Register /> },
       { path: '*', element: <Notfound /> }
