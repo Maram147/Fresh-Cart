@@ -35,7 +35,7 @@ let {setUserLogin}=useContext(UserContext)
   if (data.message === 'success') {
     localStorage.setItem('userToken', data.token);
     setUserLogin(data.token);
-    navigate('/');
+    navigate('/Login');
   }else{
     console.warn('Unexpected response:', data);
   }
