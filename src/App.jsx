@@ -32,6 +32,7 @@ import WishList from './components/WishList/WishList'
 import Profile from './components/Profile/Profile'
 import CategoriesDetails from './components/CategoriesDetails/CategoriesDetails'
 import BrandsDetails from './components/BrandsDetails/BrandsDetails'
+import ResetPassword from './components/ResetPassword/ResetPassword'
 let query = new QueryClient();
 let router = createBrowserRouter([
   {
@@ -44,7 +45,9 @@ let router = createBrowserRouter([
       { path: 'productdetails/:id/:category', element: <ProductDetails /> },
       { path: 'checkout', element: <ProtectRoute><Checkout /></ProtectRoute> },
       { path: 'allorders', element: <ProtectRoute><Orders /></ProtectRoute> },
-      { path: 'forgetpassword', element: <ProtectRoute><ForgetPassword /></ProtectRoute> },
+      { path: 'forgetpassword', element: <ForgetPassword /> },
+      { path: 'resetpassword', element: <ResetPassword /> },
+
 
       { path: 'categories', element: <Categories /> },
       { path: 'categoriesdetails/:id', element: <CategoriesDetails /> },
