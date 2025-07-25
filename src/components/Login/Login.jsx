@@ -8,15 +8,18 @@ import { UserContext } from '../../Context/UserContext';
 export default function Login() {
   const { setUserLogin, setUserProfile } = useContext(UserContext);
   const navigate = useNavigate();
-
   const [apiError, setApiError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
+//?to sure if there token or no 
   useEffect(() => {
     if (localStorage.getItem('userToken')) {
       navigate('/');
     }
   }, [navigate]);
+
+
+  //?validation
 
   const validationSchema = yup.object().shape({
     email: yup.string().email('Email is invalid').required('Email is required'),
@@ -29,6 +32,8 @@ export default function Login() {
       .required('Password is required'),
   });
 
+
+   //?call API
   async function handleLogin(formValues) {
     setIsLoading(true);
     try {
@@ -40,10 +45,8 @@ export default function Login() {
       if (data.message === 'success') {
         localStorage.setItem('userToken', data.token);
         setUserLogin(data.token);
-
         localStorage.setItem('userProfile', JSON.stringify(data.user));
         setUserProfile(data.user);
-
         navigate('/');
       }
     } catch (error) {
@@ -53,12 +56,16 @@ export default function Login() {
     }
   }
 
+
+  // ?formik
   const formik = useFormik({
     initialValues: { email: '', password: '' },
     validationSchema,
     onSubmit: handleLogin,
   });
 
+
+  //?if api error or no 
   useEffect(() => {
     if (apiError) setApiError('');
   }, [formik.values]);

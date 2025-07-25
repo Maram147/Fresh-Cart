@@ -12,16 +12,17 @@ export default function ResetPassword() {
   const navigate = useNavigate();
   const { setToken } = useContext(UserContext);
 
+
+  //?validation
   const schemaValidation = Yup.object({
     email: Yup.string().required('Email is required').email('Enter a valid email'),
     newPassword: Yup.string()
-      .required('Password is required')
-      .matches(
-        /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).{6,}$/,
-        'Password must include uppercase, lowercase, and number'
-      ),
+      .matches(/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).{6,}$/, 'Password must contain uppercase, lowercase, and number (min 6 chars)')
+      .required('Password is required'),
+      
   });
 
+  //?call API
   const formik = useFormik({
     initialValues: { email: '', newPassword: '' },
     validationSchema: schemaValidation,
@@ -35,13 +36,16 @@ export default function ResetPassword() {
           toast.success('Password reset successfully');
           navigate('/login');
         }
-      } catch (err) {
-        toast.error(err.response?.data?.message || 'Something went wrong');
+      } catch (error) {
+        toast.error(error.response?.data?.message || 'Something went wrong');
       } finally {
         setLoading(false);
       }
     },
   });
+
+
+
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">

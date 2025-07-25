@@ -10,7 +10,8 @@ export default function ForgetPassword() {
   const [step, setStep] = useState(1);
   const navigate = useNavigate();
 
-  // ✅ Validation for Email
+
+  //?Validation for Email
   const validateEmail = (values) => {
     const errors = {};
     if (!values.email) {
@@ -21,7 +22,8 @@ export default function ForgetPassword() {
     return errors;
   };
 
-  // ✅ Validation for Reset Code
+
+  //?Validation for Reset Code
   const validateCode = (values) => {
     const errors = {};
     if (!values.resetCode) {
@@ -30,7 +32,7 @@ export default function ForgetPassword() {
     return errors;
   };
 
-  // ✅ Formik for Email Step
+  //?Formik for Email Step
   const forgetPasswordFormik = useFormik({
     initialValues: { email: "" },
     validate: validateEmail,
@@ -40,15 +42,15 @@ export default function ForgetPassword() {
         await axios.post(`${baseUrl}/auth/forgotPasswords`, values);
         notify({ msg: "Verification code sent!", type: "success" });
         setStep(2);
-      } catch (err) {
-        notify({ msg: err.response?.data?.message || "Something went wrong", type: "error" });
+      } catch (error) {
+        notify({ msg: error.response?.data?.message || "Something went wrong", type: "error" });
       } finally {
         setLoading(false);
       }
     },
   });
 
-  // ✅ Formik for Reset Code Step
+  //?Formik for Reset Code Step
   const resetPasswordFormik = useFormik({
     initialValues: { resetCode: "" },
     validate: validateCode,
@@ -58,8 +60,8 @@ export default function ForgetPassword() {
         await axios.post(`${baseUrl}/auth/verifyResetCode`, values);
         notify({ msg: "Code verified successfully!", type: "success" });
         navigate("/ResetPassword");
-      } catch (err) {
-        notify({ msg: err.response?.data?.message || "Invalid code", type: "error" });
+      } catch (error) {
+        notify({ msg: error.response?.data?.message || "Invalid code", type: "error" });
       } finally {
         setLoading(false);
       }
@@ -73,7 +75,8 @@ export default function ForgetPassword() {
           {step === 1 ? "Forgot Password" : "Verify Code"}
         </h2>
 
-        {/* ✅ Step 1: Email Form */}
+        {/* Step 1: Email Form */}
+
         {step === 1 && (
           <form onSubmit={forgetPasswordFormik.handleSubmit}>
             <div className="mb-4">
@@ -105,7 +108,8 @@ export default function ForgetPassword() {
           </form>
         )}
 
-        {/* ✅ Step 2: Code Form */}
+         {/*Step 2: Code Form  */}
+
         {step === 2 && (
           <form onSubmit={resetPasswordFormik.handleSubmit}>
             <div className="mb-4">

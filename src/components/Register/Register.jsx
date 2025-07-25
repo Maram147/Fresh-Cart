@@ -6,13 +6,15 @@ import * as yup from 'yup';
 import { UserContext } from '../../Context/UserContext';
 
 export default function Register() {
+
   const { setUserLogin } = useContext(UserContext);
   const navigate = useNavigate();
-
   const [apiError, setApiError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  
+  
+  //?validation
 
-  // ✅ Validation Schema
   const validationSchema = yup.object().shape({
     name: yup.string().min(3, 'Name minlength is 3').max(10, 'Name maxlength is 10').required('Name is required'),
     email: yup.string().email('Email is invalid').required('Email is required'),
@@ -27,6 +29,9 @@ export default function Register() {
       .required('Repassword is required'),
   });
 
+
+     //?call API
+     
   async function handleRegister(formValues) {
     setIsLoading(true);
     try {
@@ -43,6 +48,8 @@ export default function Register() {
     }
   }
 
+
+  //? formik
   const formik = useFormik({
     initialValues: {
       name: '',
@@ -54,6 +61,7 @@ export default function Register() {
     validationSchema,
     onSubmit: handleRegister,
   });
+
 
   return (
     <div className="py-9 max-w-xl mx-auto text-start">

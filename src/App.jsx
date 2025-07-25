@@ -47,19 +47,13 @@ let router = createBrowserRouter([
       { path: 'allorders', element: <ProtectRoute><Orders /></ProtectRoute> },
       { path: 'forgetpassword', element: <ForgetPassword /> },
       { path: 'resetpassword', element: <ResetPassword /> },
-
-
       { path: 'categories', element: <Categories /> },
       { path: 'categoriesdetails/:id', element: <CategoriesDetails /> },
-
       { path: 'brands', element: <Brands /> },
       { path: 'brandsdetails/:id', element: <BrandsDetails /> },
       { path: 'login', element: <Login /> },
       { path: 'register', element: <Register /> },
       { path: '*', element: <Notfound /> }
-
-
-
     ]
   }
 ])
@@ -68,11 +62,8 @@ function App() {
 
   return (<>
     <UserContextProvider>
-
       <CartContaxtProvider>
         <QueryClientProvider client={query}>
-
-
           <CounterContextProvider>
             <RouterProvider router={router}></RouterProvider>
             <Toaster />
@@ -80,16 +71,9 @@ function App() {
           </CounterContextProvider>
         </QueryClientProvider>
       </CartContaxtProvider>
-
     </UserContextProvider>
 
-    {/* <Offline>
-        <div className="network rounded-3">
-          <i className="fas fa-wifi mx-3"></i>
-          you are offline
-        </div>
-        <OfflinePage />
-      </Offline> */}
+    
     {!isOnline && (
       <div className="network fixed bottom-4 left-4 bg-red-500 text-white px-4 py-2 z-50 rounded">
         <i className="fas fa-wifi mx-2"></i> You are offline
