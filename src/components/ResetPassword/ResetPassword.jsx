@@ -10,7 +10,7 @@ import { UserContext } from '../../Context/UserContext';
 export default function ResetPassword() {
   const [isLoading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const { setToken } = useContext(UserContext);
+  const { setUserLogin} = useContext(UserContext);
 
 
   //?validation
@@ -27,23 +27,27 @@ export default function ResetPassword() {
     initialValues: { email: '', newPassword: '' },
     validationSchema: schemaValidation,
     onSubmit: async (values) => {
-      setLoading(true);
-      try {
-        const { data } = await axios.put(`https://ecommerce.routemisr.com/api/v1/auth/resetPassword`, values);
-        if (data.token) {
-          localStorage.clear();
-          setToken(null);
-          toast.success('Password reset successfully');
-          navigate('/login');
-        }
-      } catch (error) {
-        toast.error(error.response?.data?.message || 'Something went wrong');
-      } finally {
-        setLoading(false);
-      }
-    },
-  });
+  setLoading(true);
+  try {
+    const { data } = await axios.put(`https://ecommerce.routemisr.com/api/v1/auth/resetPassword`, values);
+    console.log("API Response:", data);
 
+    if (data.token) {
+      toast.success("Password reset successfully");
+      localStorage.clear();
+      setUserLogin(null);
+      navigate("/login");
+    } else {
+      toast.error("No token returned, something went wrong");
+    }
+  } catch (error) {
+    console.error("Reset Error:", error.response?.data || error.message);
+    toast.error(error.response?.data?.message || "Something went wrong");
+  } finally {
+    setLoading(false);
+  }
+}
+  });
 
 
 

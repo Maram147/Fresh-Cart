@@ -69,7 +69,7 @@ export default function ForgetPassword() {
   });
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
+    <div className="flex justify-center items-center min-h-screen ">
       <div className="w-full max-w-md bg-white rounded-xl shadow-lg p-8">
         <h2 className="text-2xl font-bold text-center text-green-600 mb-6">
           {step === 1 ? "Forgot Password" : "Verify Code"}
